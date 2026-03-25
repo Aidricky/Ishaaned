@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GameHub Pro</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#0f172a;color:white}
+header{padding:15px;background:#1e293b;display:flex;justify-content:space-between;align-items:center}
+header h1{margin:0}
+input{padding:8px;border-radius:8px;border:none;width:200px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;padding:20px}
+.card{background:#1e293b;border-radius:16px;padding:10px;cursor:pointer;transition:0.2s}
+.card:hover{transform:scale(1.05);background:#334155}
+.card img{width:100%;border-radius:12px}
+
+#gameScreen{display:none;padding:20px;text-align:center}
+iframe{width:90%;height:500px;border:none;border-radius:12px}
+button{padding:10px 15px;border:none;border-radius:8px;background:#38bdf8;cursor:pointer;margin-bottom:10px}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🎮 GameHub Pro</h1>
+  <input type="text" placeholder="Search games..." onkeyup="searchGames(this.value)">
+</header>
+
+<div id="menu" class="grid"></div>
+
+<div id="gameScreen">
+  <button onclick="goBack()">⬅ Back</button>
+  <div id="gameContainer"></div>
+</div>
+
+<script>
+const games=[
+  {name:"Moto X3M",img:"https://via.placeholder.com/300x150?text=Moto+X3M",src:"https://www.crazygames.com/embed/moto-x3m"},
+  {name:"Slope",img:"https://via.placeholder.com/300x150?text=Slope",src:"https://ubg365.github.io/slope/"},
+  {name:"Subway Surfers",img:"https://via.placeholder.com/300x150?text=Subway+Surfers",src:"https://ubg365.github.io/subway-surfers/"},
+  {name:"Run 3",img:"https://via.placeholder.com/300x150?text=Run+3",src:"https://ubg365.github.io/run-3/"},
+  {name:"Drift Hunters",img:"https://via.placeholder.com/300x150?text=Drift",src:"https://ubg365.github.io/drift-hunters/"}
+];
+
+function loadGames(list){
+  const menu=document.getElementById('menu');
+  menu.innerHTML='';
+  list.forEach(g=>{
+    menu.innerHTML+=`<div class="card" onclick="openGame('${g.src}','${g.name}')">
+      <img src="${g.img}">
+      <h3>${g.name}</h3>
+    </div>`;
+  });
+}
+
+function searchGames(q){
+  const filtered=games.filter(g=>g.name.toLowerCase().includes(q.toLowerCase()));
+  loadGames(filtered);
+}
+
+function openGame(src,name){
+  document.getElementById('menu').style.display='none';
+  document.getElementById('gameScreen').style.display='block';
+  document.getElementById('gameContainer').innerHTML=`<h2>${name}</h2><iframe src="${src}"></iframe>`;
+}
+
+function goBack(){
+  document.getElementById('menu').style.display='grid';
+  document.getElementById('gameScreen').style.display='none';
+}
+
+loadGames(games);
+</script>
+
+</body>
+</html>
